@@ -1,1 +1,1 @@
-# Covid's effect on airlines
+# Covid's effect on air travel
