@@ -32,26 +32,32 @@ def load_dataset(data_path="data/covidandairtravel.csv"):
             try:
                 fuel = float(cols[1])
                 dataset_row["fuel"] = fuel
-            except:
+            except ValueError:
                 dataset_row["fuel"] = None
             try:
                 enplanements = float(cols[2])
                 dataset_row["enplanements"] = enplanements
-            except:
+            except ValueError:
                 dataset_row["enplanements"] = None
             try:
                 revenue = float(cols[3])
                 dataset_row["revenue"] = revenue
-            except:
+            except ValueError:
                 dataset_row["revenue"] = None
             dataset.append(dataset_row)
     return dataset
 
 
 def impute_dataset_with_mean(dataset):
-    fuel_mean = statistics.mean([x["fuel"] for x in dataset if isinstance(x["fuel"], float)])
-    enplanements_mean = statistics.mean([x["enplanements"] for x in dataset if isinstance(x["enplanements"], float)])
-    revenue_mean = statistics.mean([x["revenue"] for x in dataset if isinstance(x["revenue"], float)])
+    # attempt to get means for fuel, enplanements and revenue
+    try:
+        fuel_mean = statistics.mean([x["fuel"] for x in dataset if isinstance(x["fuel"], float)])
+        enplanements_mean = statistics.mean([x["enplanements"] for x in dataset if isinstance(x["enplanements"], float)])
+        revenue_mean = statistics.mean([x["revenue"] for x in dataset if isinstance(x["revenue"], float)])
+    except statistics.StatisticsError:
+        return dataset
+    
+    # impute missing values with means
     for row in dataset:
         if len(row) != 4:
             continue
@@ -91,12 +97,21 @@ def print_dataset(dataset):
 
 def plot_dataset(dataset):
     years, fuel, enplanements, revenue = dataset_to_lists(dataset)
-    fig, ax = plt.subplots(1, 1, figsize=(12, 8))
-    ax.plot(years, fuel, "y-", label="fuel consumption")
-    ax.plot(years, enplanements, "b-", label="enplanements")
-    ax.plot(years, revenue, "g-", label="revenue")
-    ax.axvline("2020", color="r", linestyle=":")
-    ax.legend()
+    fig, ax1 = plt.subplots(1, 1, figsize=(12, 8))
+    ax2 = ax1.twinx()
+    ax1.set_xlabel("Year", color="r")
+    ax1.tick_params(axis="x", labelcolor="r")
+    ax1.set_ylabel("Billions", color="g")
+    ax1.tick_params(axis="y", labelcolor="g")
+    ax2.set_ylabel("Millions", color="b")
+    ax2.tick_params(axis="y", labelcolor="b")
+    ax1.plot(years, fuel, "y-", label="fuel consumption")
+    ax2.plot(years, enplanements, "b-", label="enplanements")
+    ax1.plot(years, revenue, "g-", label="revenue")
+    ax1.axvline("2019", color="r", linestyle=":")
+    ax1.axvline("2020", color="r", linestyle=":")
+    ax1.axvline("2021", color="r", linestyle=":")
+    ax1.legend()
     plt.show()
 
 
