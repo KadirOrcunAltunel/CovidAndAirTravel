@@ -111,7 +111,9 @@ def plot_dataset(dataset):
     ax1.axvline("2019", color="r", linestyle=":")
     ax1.axvline("2020", color="r", linestyle=":")
     ax1.axvline("2021", color="r", linestyle=":")
-    ax1.legend()
+    h1, l1 = ax1.get_legend_handles_labels()
+    h2, l2 = ax2.get_legend_handles_labels()
+    plt.legend(h1+h2, l1+l2)
     plt.show()
 
 
