@@ -2,6 +2,7 @@
 authors: Kadir O. Altunel, Ronny Toribio
 project: Covid and Air Travel
 """
+import os.path
 import csv
 import math
 
@@ -93,23 +94,28 @@ def load_data(filename = "data/covidandairtravel.csv"):
     
 
 def plot_data(year, ydata, yname, color):
+    title = 'Year vs {}'.format(yname)
     plt.figure(figsize=(10, 10))
     plt.plot(year, ydata, color=color, marker='o')
-    plt.title('Year vs {}'.format(yname), fontsize=14)
+    plt.title(title, fontsize=14)
     plt.xticks(year)
     plt.xlabel('Year', fontsize=14)
     plt.ylabel(yname, fontsize=14)
     plt.grid(True)
+    plt.savefig(os.path.join("graphs", title + ".png"))
     plt.show()
 
 
 def plot_regression_data(xdata, ydata, xname, yname, year):
+    title = "{}-{}-regression".format(xname, yname)
     plot = sns.jointplot(x = xdata, y = ydata, kind = "reg");
     plot.ax_joint.set_xticks(year)
     plot.ax_joint.set_xlabel(xname, fontweight='bold')
     plot.ax_joint.set_ylabel(yname, fontweight='bold')
     alpha, beta = least_squares_fit(xdata, ydata)
     print("Pearson correlation coefficient for {} vs {} is: {}".format(xname, yname, r_squared(alpha, beta, xdata, ydata)))
+    plt.savefig(os.path.join("graphs", title + ".png"))
+    plt.show()
 
 
 if __name__ == "__main__":
