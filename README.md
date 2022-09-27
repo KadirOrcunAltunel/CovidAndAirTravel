@@ -21,7 +21,7 @@ on airline revenue streams, fuel consumption and enplanements
 ![Enplanements Regression](graphs/enplanements_regression.png)
 
 ### Fuel Consumption Regression
-![Fuel Consumption Regression](graphs/fuel_consumption_regresssion.png)
+![Fuel Consumption Regression](graphs/fuel_consumption_regression.png)
 
 ### Revenue Streams Regression
 ![Revenue Streams Regression](graphs/revenue_streams_regression.png)
