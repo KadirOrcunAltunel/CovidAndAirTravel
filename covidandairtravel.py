@@ -94,7 +94,7 @@ def load_data(filename = "data/covidandairtravel.csv"):
     
 
 def plot_data(year, ydata, yname, color):
-    title = 'Year vs {}'.format(yname)
+    title = yname
     plt.figure(figsize=(10, 10))
     plt.plot(year, ydata, color=color, marker='o')
     plt.title(title, fontsize=14)
@@ -102,7 +102,7 @@ def plot_data(year, ydata, yname, color):
     plt.xlabel('Year', fontsize=14)
     plt.ylabel(yname, fontsize=14)
     plt.grid(True)
-    plt.savefig(os.path.join("graphs", title + ".png"))
+    plt.savefig(os.path.join("graphs", title.replace(" ", "_").lower() + ".png"))
     plt.show()
 
 
@@ -114,7 +114,7 @@ def plot_regression_data(xdata, ydata, xname, yname, year):
     plot.ax_joint.set_ylabel(yname, fontweight='bold')
     alpha, beta = least_squares_fit(xdata, ydata)
     print("Pearson correlation coefficient for {} vs {} is: {}".format(xname, yname, r_squared(alpha, beta, xdata, ydata)))
-    plt.savefig(os.path.join("graphs", title + ".png"))
+    plt.savefig(os.path.join("graphs", title.replace(" ", "_").lower() + ".png"))
     plt.show()
 
 
